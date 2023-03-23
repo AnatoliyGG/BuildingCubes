@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/Pawn.h"
 #include "BC_C_Character.generated.h"
 
 UCLASS()
@@ -26,4 +27,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+private:
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void StartAction();
+	void EndAction();
 };
