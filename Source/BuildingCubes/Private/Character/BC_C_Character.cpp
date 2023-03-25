@@ -12,9 +12,14 @@ ABC_C_Character::ABC_C_Character()
 	BC_CameraComponent = CreateDefaultSubobject<UCameraComponent>("BC_CameraComponent");
 	BC_CameraComponent->SetupAttachment(GetRootComponent());
 
-	BS_FirstPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>("BS_FirstPersonMesh");
-	BS_FirstPersonMesh->SetupAttachment(BC_CameraComponent);
+	BC_FirstPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>("BC_FirstPersonMesh");
+	BC_FirstPersonMesh->SetupAttachment(BC_CameraComponent);
 
+	BC_FirstPersonGun = CreateDefaultSubobject<USkeletalMeshComponent>("BC_FirstPersonGun");
+	BC_FirstPersonGun->SetupAttachment(GetRootComponent());
+
+	BC_LightShpere = CreateAbstractDefaultSubobject<UStaticMeshComponent>("BC_LightShpere");
+	BC_LightShpere->SetupAttachment(GetRootComponent());
 }
 
 void ABC_C_Character::BeginPlay()
@@ -22,8 +27,12 @@ void ABC_C_Character::BeginPlay()
 	Super::BeginPlay();
 
 	check(BC_CameraComponent);
-	check(BS_FirstPersonMesh);
-	
+	check(BC_FirstPersonMesh);
+	check(BC_FirstPersonGun);
+	check(BC_LightShpere);
+
+	BC_FirstPersonGun->AttachToComponent(BC_FirstPersonMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GripPoint"));
+	BC_LightShpere->AttachToComponent(BC_FirstPersonGun, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("Muzzle"));
 }
 
 void ABC_C_Character::Tick(float DeltaTime)
